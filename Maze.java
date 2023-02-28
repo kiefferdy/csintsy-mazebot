@@ -18,6 +18,14 @@ public class Maze {
         }
     }
 
+    public int getRows() {
+        return this.rows;
+    }
+
+    public int getCols() {
+        return this.cols;
+    }
+
     public Coordinate getCoordinate(int x, int y) {
         return this.maze[x][y];
     }
@@ -71,5 +79,24 @@ public class Maze {
 
     public void setExplored(int x, int y) {
         maze[x][y].setIsVisited();
+    }
+
+    public void displayMaze() {
+
+        String[][] printableMaze = new String[this.rows][this.cols];
+        int i, j;
+
+        for(i = 0; i < this.rows; i++) {
+            for(j = 0; j < this.cols; j++) {
+                printableMaze[i][j] = this.maze[i][j].getData();
+            }
+        }
+
+        for(i = 0; i < this.rows; i++) {
+            System.out.println();
+            for(j = 0; j < this.cols; j++) {
+                System.out.print(printableMaze[i][j]);
+            }
+        }
     }
 }
