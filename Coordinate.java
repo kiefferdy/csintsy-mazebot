@@ -1,20 +1,23 @@
+package ver2;
+
+
 public class Coordinate {
 
     private int x;
     private int y;
     private boolean isVisited;
-    private String data;
+    private char data;
     private Coordinate parent;
 
     public Coordinate(int x, int y) {
         this.x = x;
         this.y = y;
         this.isVisited = false;
-        this.data = ".";
+        this.data = '.';
         this.parent = null;
     }
 
-    public Coordinate(int x, int y, String data) {
+    public Coordinate(int x, int y, char data) {
         this.x = x;
         this.y = y;
         this.isVisited = false;
@@ -30,8 +33,8 @@ public class Coordinate {
         return this.y;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setData(char ch) {
+        this.data = ch;
     }
 
     public boolean getIsVisited() {
@@ -42,7 +45,7 @@ public class Coordinate {
         this.isVisited = true;
     }
 
-    public String getData() {
+    public char getData() {
         return this.data;
     }
 
