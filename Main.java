@@ -15,23 +15,34 @@ public class Main {
 		
 		//transfer data from file to object Maze
 		Maze m = new Maze(size);
-		fileToMaze("C:\\Users\\nicol\\OneDrive\\Desktop\\map.txt", m, size);
+		fileToMaze("C:\\Users\\nicol\\OneDrive\\Desktop\\map.txt", m);
 		
 		//displaying maze
 		System.out.println("Size: "+size);
 		if (m != null)
-			m.displayMaze();
-		m.displayMazeWBorder();
+//			m.displayMaze();
+			m.displayMazeWBorder();
 		
-		BFSMazeBot bfs = new BFSMazeBot();
+		m.dispMazeWCoord();
+		
+		m.findEntranceExit();
+		m.isValidLocation(3, 10);
+		
+//		BFSMazeBot bfs = new BFSMazeBot();
 		DFSMazeBot dfs = new DFSMazeBot();
-		
-		System.out.println("trying bfsbot");
-		bfs.displayPath(m);
-		
+//		
+//		System.out.println("trying bfsbot");
+//		bfs.displayPath(m);
+//		
 		System.out.println("trying dfsbot");
 		dfs.displayPath(m);
 	}
+	
+	/* mapSize()
+	 * This method gets the size of the map from the file
+	 * @param String fileName = name of file
+	 * @return int n = size of the map
+	 * */
 
 	public static int mapSize(String fileName) {
 		int n=0;
@@ -52,8 +63,14 @@ public class Main {
 		return n;
 	}
 	
-	//This function reads the text file and loads the data into the object Maze
-    public static void fileToMaze(String fileName, Maze m, int size) {
+	/* fileToMaze()
+	 * This function reads the text file
+	 * and loads the data into the object Maze
+	 * @param String fileName = name of file
+	 * @param Maze m = maze
+	 * */
+	
+    public static void fileToMaze(String fileName, Maze m) {
     	    	
     	String str = "";
 		int n;

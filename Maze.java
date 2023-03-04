@@ -2,7 +2,7 @@ package ver2;
 
 import java.util.ArrayList;
 
-public class Maze {
+public class Maze implements Cloneable{
 
 //    private Coordinate[][] maze;
     private ArrayList<ArrayList<Coordinate> > maze = new ArrayList<ArrayList<Coordinate>>();
@@ -17,6 +17,11 @@ public class Maze {
         
     }
     
+    /* createMaze() 
+     * This method initializes the maze and adds Coordinates for each x & y
+     * @param int n = size of maze
+     * @return maze = maze
+     * */
     public ArrayList<ArrayList<Coordinate>> createMaze(int n){
         int i, j;
         for(i = 0; i < n; i++) {
@@ -31,27 +36,72 @@ public class Maze {
     }
 
    
+    /* findEntranceExit()
+     * This method finds the entrance (start) and exit (goal) coordinates of the maze
+     * This method does not return anything but updates the variables for entrance and exit
+     * */
     public void findEntranceExit() {
         int i, j;
-
+        char ch;
+        Coordinate coord;
+        
         for(i = 0; i < this.size; i++) {
             for(j = 0; j < this.size; j++) {
-                if(maze.get(0).get(j).getData() == 'G') {
-                    this.entrance = this.maze.get(i).get(j);
-                } else if(maze.get(size-1).get(i).getData() == 'S') {
-                    this.exit = this.maze.get(i).get(j);
+            	coord = maze.get(i).get(j);
+            	ch = coord.getData();
+                if(ch == 'S') {
+                    this.entrance = coord;
+                } else if(ch == 'G') {
+                    this.exit = coord;
                 }
             }
         }
     }
     
+    public boolean isInBounds(int x, int y) {
+    	
+    	if ( ((x >= 0) && (x < (this.size))) &&
+       		 ((y >= 0) && (y < (this.size))) ){
+       		
+    		System.out.print("valid location: ");
+           	printCoord(this.maze.get(x).get(y));
+           	System.out.println();
+       		
+           	return true;
+       	}
+           
+       System.out.print("invalid loc (out of bounds): ");
+       System.out.print(" ("+x+", "+y+") ");
+       System.out.println();
+       
+       return false;
+    }
+    
+    /* isValidLocation
+     * This method checks if the coordinate is a valid location to explore
+     * @param int x = x coordinate
+     * @param int y = y coordinate
+     * @return true if the location is valid
+     * @return false if the location is invalid
+     * */
     public boolean isValidLocation(int x, int y) {
-        if((x <= (size - 1) && x >= 0) &&
-           (y <= (size - 1) && y >= 0) &&
-            this.maze.get(x).get(y).getData() == '.') {
-            
-            return true;
-        }
+    	if (isInBounds(x,y)){
+    		char ch = this.maze.get(x).get(y).getData();
+    		if (ch == '.' || ch == 'G' || ch == 'S') {
+    			
+    			System.out.print("valid location: ");
+            	printCoord(this.maze.get(x).get(y));
+            	System.out.println();
+            	
+                return true;
+    		}
+    		else {
+    			System.out.print("invalid loc (wall): ");
+    			printCoord(this.maze.get(x).get(y));
+            	System.out.println();
+            	return false;
+    		}
+    	}
         return false;
     }
     
@@ -61,6 +111,8 @@ public class Maze {
         }
         return false;
     }
+    
+    //DISPLAY METHODS
     
     public void printCoord(Coordinate c) {
     	System.out.print(" ("+c.getX()+", "+c.getY()+") ");
@@ -99,6 +151,7 @@ public class Maze {
     }
     
     public void dispMazeWCoord() {
+    	System.out.println();
     	for(int i = 0; i < this.size; i++) {
             for(int j = 0; j < this.size; j++) {
                 printCoord(this.getCoordinate(i, j));
@@ -106,6 +159,7 @@ public class Maze {
             }
             System.out.println();
         }
+    	System.out.println();
     }
     
     //GETTERS & SETTERS
@@ -126,25 +180,6 @@ public class Maze {
         return this.exit;
     }
 
-    
-    
-
-//    public int getRows() {
-//		return rows;
-//	}
-//
-//	public void setRows(int rows) {
-//		this.rows = rows;
-//	}
-//
-//	public int getCols() {
-//		return cols;
-//	}
-//
-//	public void setCols(int cols) {
-//		this.cols = cols;
-//	}
-
     public int getSize() {
 		return size;
 	}
@@ -160,4 +195,9 @@ public class Maze {
 	public void setExplored(int x, int y) {
     	maze.get(x).get(y).setIsVisited();
     }
+	
+	@Override
+	public Object clone() throws CloneNotSupportedException {
+		return super.clone();
+	}
 }

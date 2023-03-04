@@ -41,6 +41,7 @@ public class Coordinate {
         return this.isVisited;
     }
 
+    //sets isVisited to true
     public void setIsVisited() {
         this.isVisited = true;
     }
