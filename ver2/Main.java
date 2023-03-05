@@ -38,7 +38,7 @@ public class Main {
 		fileToMaze(filepath, maze);
 		fileToMaze(filepath, duplicateMaze);
 		
-		// Displays the maze
+		// Displays the unexplored maze
 		System.out.println("Maze size: " + size);
 		if (maze != null)
 			maze.displayMazeWBorder();
@@ -53,14 +53,23 @@ public class Main {
 		if(animateChoice.equalsIgnoreCase("Y"))
 			dfs.enableAnimation();
 		
+		// Visualizes all the locations the algorithm explored
 		System.out.println("Attempting to solve the maze with DFS...");
 		dfs.solve(maze);
 		dfs.displayPath(maze);
 		
+		// Visualizes the optimized path
+		// NOTE: This is not necessarily the most optimal path!
 		dfsFinalPath.solve(duplicateMaze);
 		System.out.println();
-		System.out.println("============ FINAL PATH TAKEN ============");
+		System.out.println("============ OPTIMIZED PATH ============");
 		dfsFinalPath.displayPath(duplicateMaze);
+
+		// Displays the number of locations explored by the algorithm
+		System.out.printf("\nTotal Locations Explored: ");
+		System.out.println(dfs.getLocationsExplored());
+		System.out.print("Number of Locations in Optimized Path: ");
+		System.out.print(dfsFinalPath.getLocationsExplored());
 	}
 	
 	/* mapSize()

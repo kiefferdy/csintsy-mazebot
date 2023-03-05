@@ -109,4 +109,8 @@ public class DFSMazeBot {
     public void showFinalPathOnly() {
         this.showFinalPathOnly = true;
     }
+
+    public int getLocationsExplored() {
+        return this.path.size();
+    }
 }
