@@ -3,36 +3,64 @@ package ver2;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.InvalidPathException;
+import java.nio.file.Paths;
+import java.util.Scanner;
 
 public class Main {
 
 	public static void main(String[] args) {
 
+		// Asks user for system preferences
+		Scanner sc = new Scanner(System.in);
+		String filepath = "";
+		String animateChoice = "";
+
+		do {
+			System.out.print("Enter the filepath of the maze file: ");
+			filepath = sc.nextLine();
+		} while(!isValidFilePath(filepath));
+
+		do {
+			System.out.print("Would you like to see the animation? (Y/N): ");
+			animateChoice = sc.nextLine();
+		} while(!animateChoice.equalsIgnoreCase("Y") && !animateChoice.equalsIgnoreCase("N"));
+
+		sc.close();
+
 		// Gets size of map from file
 		int size;
-		size = mapSize("C:\\Users\\Kieffer Dy\\Desktop\\maze.txt");
+		size = mapSize(filepath);
 		
 		// Transfers data from file to object Maze
-		Maze m = new Maze(size);
-		fileToMaze("C:\\Users\\Kieffer Dy\\Desktop\\maze.txt", m);
+		Maze maze = new Maze(size);
+		Maze duplicateMaze = new Maze(size);
+		fileToMaze(filepath, maze);
+		fileToMaze(filepath, duplicateMaze);
 		
 		// Displays the maze
-		System.out.println("Size: "+size);
-		if (m != null)
-			m.displayMazeWBorder();
+		System.out.println("Maze size: " + size);
+		if (maze != null)
+			maze.displayMazeWBorder();
 		
-		m.displayMazeWCoord();
-		m.findEntranceExit();
+		maze.displayMazeWCoord();
+		maze.findEntranceExit();
+		duplicateMaze.findEntranceExit();
 		
 		DFSMazeBot dfs = new DFSMazeBot();
+		DFSMazeBot dfsFinalPath = new DFSMazeBot();
+		dfsFinalPath.showFinalPathOnly();
+		if(animateChoice.equalsIgnoreCase("Y"))
+			dfs.enableAnimation();
+		
 		System.out.println("Attempting to solve the maze with DFS...");
-		dfs.displayPath(m);
-
-		/* UNDER CONSTRUCTION
-		BFSMazeBot bfs = new BFSMazeBot();
-		System.out.println("Attempting to solve the maze with BFS...");
-		bfs.displayPath(m);
-		*/
+		dfs.solve(maze);
+		dfs.displayPath(maze);
+		
+		dfsFinalPath.solve(duplicateMaze);
+		System.out.println();
+		System.out.println("============ FINAL PATH TAKEN ============");
+		dfsFinalPath.displayPath(duplicateMaze);
 	}
 	
 	/* mapSize()
@@ -48,11 +76,11 @@ public class Main {
     		// Loads data from file
 		    BufferedReader br = new BufferedReader(new FileReader(fileName));
 		    s = br.readLine().trim();
-    		n = Integer.valueOf(s);    		
+    		n = Integer.valueOf(s);
 	        br.close();
     		
     	} catch (IOException e) {
-    		System.out.println("An error occured");
+    		System.out.println("An error occured.");
     		e.printStackTrace();}
 		
 		return n;
@@ -77,9 +105,9 @@ public class Main {
     		n = Integer.valueOf(str);
     		
     		// Setting String data per coordinate of map
-    		for (int i=0; i<n; i++) {
+    		for (int i = 0; i < n; i++) {
     			str = br.readLine().trim();
-    			for (int j=0; j<n; j++) {
+    			for (int j = 0; j < n; j++) {
 					System.out.println(Character.toString(str.charAt(j)));
     				m.setCoordinateData(i, j, Character.toString(str.charAt(j)));
     			}
@@ -91,4 +119,13 @@ public class Main {
     		e.printStackTrace();
 		}
     }
+
+	public static boolean isValidFilePath(String filepath) {
+		try {
+			Paths.get(filepath);
+		} catch(InvalidPathException ex) {
+			return false;
+		}
+		return true;
+	}
 }

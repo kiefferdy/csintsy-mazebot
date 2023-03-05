@@ -13,12 +13,6 @@ public class Maze {
     public Maze(int size) {
         this.size = size;
         this.maze = createMaze(size);
-        
-    }
-
-    // Copy constructor
-    public Maze(Maze duplicateMaze) {
-        this.maze = duplicateMaze.getMaze();
     }
     
     /* createMaze() 
@@ -66,19 +60,10 @@ public class Maze {
     public boolean isInBounds(int x, int y) {
     	
     	if ( ((x >= 0) && (x < (this.size))) &&
-       		 ((y >= 0) && (y < (this.size))) ){
-       		
-    		System.out.print("Valid location: ");
-           	printCoord(this.maze.get(x).get(y));
-           	System.out.println();
-
+       		 ((y >= 0) && (y < (this.size))) ) {
+                
            	return true;
        	}
-           
-       System.out.print("Invalid location (out of bounds): ");
-       System.out.print(" ("+x+", "+y+") ");
-       System.out.println();
-       
        return false;
     }
     
@@ -91,36 +76,28 @@ public class Maze {
      * */
     public boolean isValidLocation(int x, int y) {
     	if (isInBounds(x, y)) {
-    		String data = this.maze.get(x).get(y).getData();
-    		if (data.equals(".") || data.equals("G") || data.equals("S")) {
 
-    			System.out.print("Valid location: ");
-            	printCoord(this.maze.get(x).get(y));
-            	System.out.println();
-            	
+    		String data = this.maze.get(x).get(y).getData();
+    		if (data.equals(".") || data.equals("G") || data.equals("S")) 
                 return true;
-    		}
-    		else {
-    			System.out.print("Invalid location (wall): ");
-    			printCoord(this.maze.get(x).get(y));
-            	System.out.println();
-            	return false;
-    		}
     	}
         return false;
     }
     
     public boolean isExit(int x, int y) {
-        if(this.exit.getX() == x && this.exit.getY() == y) {
+        if(this.exit == null)
+            return false;
+
+        if(this.exit.getX() == x && this.exit.getY() == y)
             return true;
-        }
+
         return false;
     }
     
     // DISPLAY METHODS
     
     public void printCoord(Coordinate c) {
-    	System.out.print(" ("+c.getX()+", "+c.getY()+") ");
+    	System.out.print(" (" + c.getX() + ", " + c.getY() + ") ");
     }
     
     public void displayMaze() {
@@ -158,6 +135,7 @@ public class Maze {
     }
     
     public void displayMazeWCoord() {
+
     	System.out.println();
     	for(int i = 0; i < this.size; i++) {
             for(int j = 0; j < this.size; j++) {

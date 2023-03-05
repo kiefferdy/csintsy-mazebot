@@ -1,3 +1,6 @@
+// UNDER CONSTRUCTION
+// USE DFSMAZEBOT INSTEAD
+
 package ver2;
 
 import java.util.ArrayList;
@@ -71,6 +74,4 @@ public class BFSMazeBot {
 	public void setPath(ArrayList<Coordinate> path) {
 		this.path = path;
 	}
-    
-    
 }
